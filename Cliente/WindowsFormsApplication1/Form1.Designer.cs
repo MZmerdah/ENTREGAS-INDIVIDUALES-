@@ -32,6 +32,7 @@
             this.nombre = new System.Windows.Forms.TextBox();
             this.button2 = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.label1 = new System.Windows.Forms.Label();
             this.Palindromo = new System.Windows.Forms.RadioButton();
             this.mayusculas = new System.Windows.Forms.RadioButton();
             this.alturaBox = new System.Windows.Forms.TextBox();
@@ -39,7 +40,8 @@
             this.Longitud = new System.Windows.Forms.RadioButton();
             this.Bonito = new System.Windows.Forms.RadioButton();
             this.button1 = new System.Windows.Forms.Button();
-            this.label1 = new System.Windows.Forms.Label();
+            this.button3 = new System.Windows.Forms.Button();
+            this.contLbl = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -62,6 +64,7 @@
             this.nombre.Name = "nombre";
             this.nombre.Size = new System.Drawing.Size(246, 22);
             this.nombre.TabIndex = 3;
+            this.nombre.TextChanged += new System.EventHandler(this.nombre_TextChanged);
             // 
             // button2
             // 
@@ -96,6 +99,18 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Peticion";
             this.groupBox1.Enter += new System.EventHandler(this.groupBox1_Enter);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(21, 74);
+            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(85, 31);
+            this.label1.TabIndex = 13;
+            this.label1.Text = "Altura";
+            this.label1.Click += new System.EventHandler(this.label1_Click);
             // 
             // Palindromo
             // 
@@ -164,6 +179,7 @@
             this.Bonito.TabStop = true;
             this.Bonito.Text = "Dime si mi nombre es bonito";
             this.Bonito.UseVisualStyleBackColor = true;
+            this.Bonito.CheckedChanged += new System.EventHandler(this.Bonito_CheckedChanged);
             // 
             // button1
             // 
@@ -176,23 +192,35 @@
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
-            // label1
+            // button3
             // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(21, 74);
-            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(85, 31);
-            this.label1.TabIndex = 13;
-            this.label1.Text = "Altura";
-            this.label1.Click += new System.EventHandler(this.label1_Click);
+            this.button3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button3.Location = new System.Drawing.Point(527, 140);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(225, 60);
+            this.button3.TabIndex = 8;
+            this.button3.Text = "¿Cuántos Servicios? ";
+            this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.button3_Click);
+            // 
+            // contLbl
+            // 
+            this.contLbl.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.contLbl.Font = new System.Drawing.Font("MingLiU-ExtB", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.contLbl.ForeColor = System.Drawing.Color.DarkBlue;
+            this.contLbl.Location = new System.Drawing.Point(560, 224);
+            this.contLbl.Name = "contLbl";
+            this.contLbl.Size = new System.Drawing.Size(131, 115);
+            this.contLbl.TabIndex = 9;
+            this.contLbl.Click += new System.EventHandler(this.label3_Click);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(988, 692);
+            this.Controls.Add(this.contLbl);
+            this.Controls.Add(this.button3);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.groupBox1);
             this.Margin = new System.Windows.Forms.Padding(4);
@@ -219,6 +247,8 @@
         private System.Windows.Forms.RadioButton Palindromo;
         private System.Windows.Forms.RadioButton mayusculas;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.Label contLbl;
     }
 }
 

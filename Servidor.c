@@ -6,12 +6,16 @@
 #include <netinet/in.h>
 #include <stdio.h>
 #include <ctype.h>
+#include <pthread.h>
 
+int contador; 
+
+pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
 
 
 int main(int argc, char *argv[])
 {
-	
+	contador= 0;
 	int sock_conn, sock_listen, ret;
 	struct sockaddr_in serv_adr;
 	char peticion[512];
@@ -30,7 +34,7 @@ int main(int argc, char *argv[])
 	//htonl formatea el numero que recibe al formato necesario
 	serv_adr.sin_addr.s_addr = htonl(INADDR_ANY);
 	// establecemos el puerto de escucha
-	serv_adr.sin_port = htons(9070);
+	serv_adr.sin_port = htons(9300);
 	if (bind(sock_listen, (struct sockaddr *) &serv_adr, sizeof(serv_adr)) < 0)
 		printf ("Error al bind");
 	
@@ -47,7 +51,7 @@ int main(int argc, char *argv[])
 		printf ("He recibido conexion\n");
 		//sock_conn es el socket que usaremos para este cliente
 		
-		//Bucle atenciￃﾳn
+		//Bucle atencion
 		int terminar =0;
 		while (terminar ==0)
 		{
@@ -55,7 +59,7 @@ int main(int argc, char *argv[])
 			ret=read(sock_conn,peticion, sizeof(peticion));
 			printf ("Recibido\n");
 			
-			// Tenemos que a?adirle la marca de fin de string 
+			// Tenemos que a￱dirle la marca de fin de string 
 			// para que no escriba lo que hay despues en el buffer
 			peticion[ret]='\0';
 			
@@ -69,7 +73,7 @@ int main(int argc, char *argv[])
 			// Ya tenemos el c?digo de petici?n
 			char nombre[20];
 			
-			if (codigo !=0)
+			if ((codigo !=0) && (codigo!=6))
 			{
 				p = strtok( NULL, "/");
 				
@@ -81,11 +85,12 @@ int main(int argc, char *argv[])
 			if (codigo == 0)
 			{
 				terminar=1;
+			
 			}
 			
-			if (codigo ==1) //piden la longitd del nombre
+			else if (codigo ==1) //piden la longitd del nombre
 			{
-				sprintf (respuesta,"%ld",strlen (nombre));
+				sprintf (respuesta,"%d",strlen (nombre));
 			}
 			
 			else if (codigo ==2)
@@ -110,12 +115,12 @@ int main(int argc, char *argv[])
 					sprintf (respuesta, "%s: eresbajo",nombre);
 			}
 			
-			else  if (codigo ==4)//Quiere saber s￭ es palindromo
+			else  if (codigo ==4)//Quiere saber s￯﾿ﾭ es palindromo
 			{		
 				
 				char s[1000];  
 				int i,n,c=0;
-			
+				
 				n=strlen(s);
 				
 				for(i=0;i<n/2;i++)  
@@ -127,15 +132,15 @@ int main(int argc, char *argv[])
 				if(c==i)
 					
 				{
-					strcpy (respuesta,"SI, es pal￭ndromo");
+					strcpy (respuesta,"SI, es pal￯﾿ﾭndromo");
 				}
 				else
-					strcpy (respuesta,"No, no es pal￭ndromo");
+				   strcpy (respuesta,"No, no es pal￯﾿ﾭndromo");
 				
 				
 			}				
 			
-			else  if (codigo ==5)// Devolver un nombre en may￺sculas 
+			else  if (codigo ==5)// Devolver un nombre en may￯﾿ﾺsculas 
 			{		
 				
 				for (int in = 0; nombre[in] != '\0'; in++)
@@ -146,6 +151,10 @@ int main(int argc, char *argv[])
 				
 			}				
 			
+			else if (codigo==6)
+			{
+				sprintf (respuesta,"%d",contador);
+			}
 			if (codigo !=0)
 			{
 				
@@ -153,7 +162,12 @@ int main(int argc, char *argv[])
 				// Enviamos respuesta
 				write (sock_conn,respuesta, strlen(respuesta));
 			}
-			
+			if ((codigo==1)|| (codigo==2)||(codigo==3)||(codigo==4)||(codigo==5))
+			{
+				pthread_mutex_lock(&mutex); //No interrumpir ahora
+				contador =contador +1;
+				pthread_mutex_unlock(&mutex); //Ahora si se puede
+			}
 		}
 		// Se acabo el servicio para este cliente
 		close(sock_conn); 
